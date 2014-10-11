@@ -1,8 +1,10 @@
 (function() {
-  var ParserWrapper, clone, extend, ramlLoader, ramlParser,
+  var ParserWrapper, clone, extend, path, ramlLoader, ramlParser,
     __slice = [].slice;
 
   ramlParser = require('raml-parser');
+
+  path = require('path');
 
   extend = function() {
     var dest, key, source, sources, value, _i, _len;
@@ -134,6 +136,7 @@
   };
 
   ramlLoader = function(filePath, logger, onSuccess, onError) {
+    filePath = path.relative(process.cwd(), filePath);
     return ramlParser.loadFile(filePath).then(function(data) {
       logger.info('RAML successfully loaded');
       return onSuccess(new ParserWrapper(data));
