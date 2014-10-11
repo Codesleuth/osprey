@@ -1,4 +1,5 @@
 ramlParser = require 'raml-parser'
+path = require 'path'
 
 extend = (dest, sources...) ->
   for source in sources
@@ -86,6 +87,7 @@ clone = (obj) ->
   return newInstance
 
 ramlLoader = (filePath, logger, onSuccess, onError) ->
+  filePath = path.relative(process.cwd(), filePath)
   ramlParser.loadFile(filePath).then(
     (data) ->
       logger.info 'RAML successfully loaded'
